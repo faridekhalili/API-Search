@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState, useRef } from "react";
 import "../styles/Search.css";
 
 type SearchType = {
@@ -9,6 +9,7 @@ type SearchType = {
 };
 
 function Search({ query, setQuery, source, setSource }: SearchType) {
+  const [tempQuery, setTempQuery] = useState("");
   const searchText = useRef<HTMLInputElement>(null);
 
   function handleSearchChange(e: React.FormEvent<HTMLFormElement>) {
@@ -18,7 +19,7 @@ function Search({ query, setQuery, source, setSource }: SearchType) {
       const checkInput = searchText.current.value;
 
       if (checkInput !== "") {
-        setQuery(checkInput);
+        setQuery(tempQuery);
       }
     }
   }
@@ -30,6 +31,10 @@ function Search({ query, setQuery, source, setSource }: SearchType) {
         <input
           type="search"
           placeholder="Start typing to search..."
+          onChange={(e) => {
+            setTempQuery(e.target.value);
+          }}
+          value={tempQuery}
           ref={searchText}
           className="search-box"
         />
